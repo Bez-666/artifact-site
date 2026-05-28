@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTIFACT — Creative Direction & Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0a0c10;
+  --surface: #0e1116;
+  --surface2:#12151b;
+  --border:  rgba(255,255,255,0.07);
+  --neon:    #00ffb3;
+  --neon-dim:rgba(0,255,179,0.10);
+  --neon-glow:rgba(0,255,179,0.35);
+  --white:   #f0f4f8;
+  --muted:   rgba(240,244,248,0.42);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* CURSOR */
+.cursor { position:fixed; width:10px; height:10px; background:var(--neon); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:screen; transition:width .15s,height .15s; }
+.cursor-ring { position:fixed; width:32px; height:32px; border:1px solid rgba(0,255,179,0.5); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:all .1s ease-out; opacity:.6; }
+
+/* ── UTILITY BAR ──────────────────── */
+.nav-utility {
+  position:fixed; top:0; left:0; right:0; z-index:300;
+  height:32px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 48px;
+}
+.nav-utility a, .nav-utility span {
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none; transition:color .2s;
+}
+.nav-utility a:hover { color:var(--neon); }
+.nav-utility-links { display:flex; gap:28px; }
+
+/* ── MAIN NAV ─────────────────────── */
+nav {
+  position:fixed; top:32px; left:0; right:0; z-index:200;
+  height:64px;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 48px;
+  background:rgba(10,12,16,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:'Syne',sans-serif; font-weight:800; font-size:17px;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--white); text-decoration:none;
+  display:flex; align-items:center; gap:9px;
+}
+.nav-logo span { color:var(--neon); text-shadow:0 0 18px var(--neon-glow); }
+.logo-dot { width:6px; height:6px; background:var(--neon); border-radius:50%; box-shadow:0 0 8px var(--neon-glow); animation:pulse 2s infinite; }
+.nav-links { display:flex; gap:0; list-style:none; }
+.nav-links a {
+  display:block; height:64px; line-height:64px;
+  padding:0 22px;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none; transition:color .2s, background .2s;
+}
+.nav-links a:hover { color:var(--white); background:rgba(255,255,255,0.03); }
+.nav-cta {
+  background:transparent; border:1px solid var(--neon);
+  color:var(--neon); text-decoration:none;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  padding:9px 22px; transition:all .2s;
+}
+.nav-cta:hover { background:var(--neon); color:var(--bg); box-shadow:0 0 28px var(--neon-glow); }
+
+/* ── HERO ─────────────────────────── */
+.hero {
+  position:relative;
+  height:100vh; min-height:580px;
+  margin-top:96px;
+  overflow:hidden;
+  background:var(--surface);
+  display:flex; align-items:center;
+}
+
+/* Massive type — bleeds in bg like RIDEX */
+.hero-bg-word {
+  position:absolute;
+  right:-20px; top:50%;
+  transform:translateY(-52%);
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:clamp(160px, 24vw, 300px);
+  line-height:1; letter-spacing:-.03em; text-transform:uppercase;
+  color:var(--neon);
+  opacity:.07;
+  pointer-events:none; user-select:none;
+  white-space:nowrap;
+  animation:fadeIn 1.2s ease both;
+}
+
+/* Left accent block — same role as RIDEX orange rect */
+.hero-accent {
+  position:absolute; left:0; top:0; bottom:0;
+  width:clamp(80px,10vw,140px);
+  background:var(--neon);
+  opacity:.85;
+  z-index:2;
+}
+/* Faint grid texture overlay on accent */
+.hero-accent::after {
+  content:''; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(0,0,0,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.15) 1px,transparent 1px);
+  background-size:12px 12px;
+}
+
+/* Image area — left half */
+.hero-img-zone {
+  position:absolute; left:0; top:0; bottom:0;
+  width:55%;
+  z-index:3;
+}
+.hero-img-fade {
+  position:absolute; inset:0; z-index:4;
+  background:linear-gradient(90deg, transparent 35%, var(--surface) 78%),
+             linear-gradient(0deg, var(--surface) 0%, transparent 12%);
+}
+.hero-img-inner {
+  width:100%; height:100%;
+  background:
+    radial-gradient(ellipse at 38% 50%, rgba(0,255,179,.05) 0%, transparent 55%),
+    linear-gradient(135deg, #080a0e 0%, #13161d 60%, #0a0c10 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Placeholder graphic — replace with real product render */
+.placeholder-art {
+  position:relative; width:360px; height:360px;
+  opacity:.55; filter:drop-shadow(0 0 32px rgba(0,255,179,.12));
+}
+.pa-ring { position:absolute; border-radius:50%; border:1px solid rgba(0,255,179,.2); }
+.pa-r1 { width:320px;height:320px; top:20px;left:20px; }
+.pa-r2 { width:220px;height:220px; top:70px;left:70px; border-color:rgba(0,255,179,.12); }
+.pa-r3 { width:120px;height:120px; top:120px;left:120px; border-color:rgba(0,255,179,.3); background:rgba(0,255,179,.04); }
+.pa-cross { position:absolute; top:50%;left:50%; transform:translate(-50%,-50%); }
+.pa-cross::before,.pa-cross::after { content:''; position:absolute; background:rgba(0,255,179,.15); }
+.pa-cross::before { width:1px;height:200px; top:-100px;left:0; }
+.pa-cross::after  { width:200px;height:1px; top:0;left:-100px; }
+.pa-dot { position:absolute; width:8px;height:8px; background:var(--neon); border-radius:50%; box-shadow:0 0 12px var(--neon-glow); top:50%;left:50%;transform:translate(-50%,-50%); }
+.pa-label {
+  position:absolute; bottom:-36px; left:50%; transform:translateX(-50%);
+  font-size:9px; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(0,255,179,.4); white-space:nowrap;
+}
+
+/* Hero content — right side */
+.hero-content {
+  position:relative; z-index:10;
+  margin-left:auto;
+  width:48%; padding:0 56px 0 0;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.hero-eyebrow {
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--neon); margin-bottom:22px;
+  display:flex; align-items:center; gap:12px;
+  animation:fadeUp .7s ease .2s both;
+}
+.hero-eyebrow::before { content:''; width:28px; height:1px; background:var(--neon); }
+.hero-headline {
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:clamp(32px,4.5vw,56px);
+  line-height:1.05; letter-spacing:-.01em; text-transform:uppercase;
+  margin-bottom:24px;
+  animation:fadeUp .7s ease .3s both;
+}
+.hero-headline em { font-style:normal; color:var(--neon); text-shadow:0 0 40px var(--neon-glow); }
+.hero-sub {
+  color:var(--muted); font-size:13px; line-height:1.85;
+  max-width:380px; margin-bottom:40px;
+  animation:fadeUp .7s ease .4s both;
+}
+.hero-actions {
+  display:flex; gap:16px; align-items:center;
+  animation:fadeUp .7s ease .5s both;
+}
+.btn-primary {
+  background:var(--neon); color:var(--bg);
+  font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; padding:14px 32px;
+  text-decoration:none; transition:all .2s;
+}
+.btn-primary:hover { box-shadow:0 0 32px var(--neon-glow); }
+.btn-ghost {
+  color:var(--muted); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; text-decoration:none;
+  display:flex; align-items:center; gap:8px; transition:color .2s;
+}
+.btn-ghost::after { content:'→'; transition:transform .2s; }
+.btn-ghost:hover { color:var(--white); }
+.btn-ghost:hover::after { transform:translateX(4px); }
+
+/* Scroll hint */
+.hero-scroll {
+  position:absolute; bottom:28px; left:56px; z-index:10;
+  font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:10px;
+  animation:fadeUp .7s ease .7s both;
+}
+.hero-scroll-line { width:1px; height:36px; background:var(--border); }
+
+/* ── MARQUEE ─────────────────────── */
+.marquee-wrap {
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  background:var(--surface); padding:13px 0; overflow:hidden;
+}
+.marquee-track { display:flex; animation:marquee 22s linear infinite; white-space:nowrap; }
+.marquee-item {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); padding:0 40px;
+  display:flex; align-items:center; gap:40px;
+}
+.marquee-item::after { content:'◆'; color:var(--neon); font-size:7px; }
+
+/* ── SHARED ──────────────────────── */
+section { position:relative; z-index:2; }
+.s-tag {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--neon); margin-bottom:12px;
+  display:flex; align-items:center; gap:10px;
+}
+.s-tag::before { content:''; width:20px; height:1px; background:var(--neon); }
+.s-title {
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:clamp(30px,4.5vw,56px); text-transform:uppercase;
+  letter-spacing:-.01em; line-height:1; margin-bottom:64px;
+}
+
+/* ── SERVICES ────────────────────── */
+.services { padding:112px 48px; }
+.services-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--border);
+}
+.svc {
+  background:var(--surface); padding:44px 36px;
+  position:relative; overflow:hidden; transition:background .25s;
+}
+.svc::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--neon); transform:scaleX(0); transform-origin:left;
+  transition:transform .35s ease; box-shadow:0 0 14px var(--neon-glow);
+}
+.svc:hover::before { transform:scaleX(1); }
+.svc:hover { background:var(--surface2); }
+.svc-num { font-size:10px; letter-spacing:.15em; color:var(--neon); opacity:.55; margin-bottom:24px; }
+.svc-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:.02em; margin-bottom:14px; }
+.svc-desc { color:var(--muted); font-size:12.5px; line-height:1.85; }
+.svc-tags { margin-top:24px; display:flex; flex-wrap:wrap; gap:6px; }
+.tag { font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--neon); border:1px solid rgba(0,255,179,.2); padding:3px 9px; background:var(--neon-dim); }
+
+/* ── ABOUT ───────────────────────── */
+.about {
+  background:var(--surface); border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:112px 48px;
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+}
+.about-text p { color:var(--muted); font-size:13.5px; line-height:1.9; margin-bottom:18px; }
+.about-text p strong { color:var(--white); font-weight:400; }
+.about-pull {
+  margin-top:36px; padding:22px 28px;
+  border-left:2px solid var(--neon); background:var(--neon-dim);
+}
+.about-pull p { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; text-transform:uppercase; color:var(--white); line-height:1.45; margin:0; }
+.about-stats { display:flex; flex-direction:column; gap:28px; }
+.astat { border-left:2px solid var(--border); padding-left:24px; transition:border-color .3s; }
+.astat:hover { border-color:var(--neon); }
+.astat-num { font-family:'Syne',sans-serif; font-weight:800; font-size:48px; line-height:1; }
+.astat-num span { color:var(--neon); }
+.astat-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+/* ── WORK GRID ───────────────────── */
+.work { padding:112px 48px; }
+.work-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); }
+.wcard {
+  background:var(--surface); padding:48px;
+  position:relative; overflow:hidden; transition:background .25s;
+}
+.wcard:hover { background:var(--surface2); }
+.wcard::after {
+  content:''; position:absolute; bottom:0; right:0;
+  width:140px; height:140px;
+  background:radial-gradient(circle at bottom right,var(--neon-dim),transparent);
+  opacity:0; transition:opacity .3s;
+}
+.wcard:hover::after { opacity:1; }
+.wcard-label { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--neon); margin-bottom:14px; }
+.wcard-title { font-family:'Syne',sans-serif; font-weight:800; font-size:26px; text-transform:uppercase; letter-spacing:-.01em; margin-bottom:14px; line-height:1.1; }
+.wcard-desc { color:var(--muted); font-size:13px; line-height:1.85; }
+.wcard-link { display:inline-flex; align-items:center; gap:8px; margin-top:28px; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--neon); text-decoration:none; transition:gap .2s; }
+.wcard-link:hover { gap:16px; }
+
+/* ── CONTACT ─────────────────────── */
+.contact {
+  background:var(--surface); border-top:1px solid var(--border);
+  display:grid; grid-template-columns:1fr 1fr;
+}
+.contact-info { padding:80px 56px; border-right:1px solid var(--border); }
+.contact-info h2 { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(28px,3.5vw,48px); text-transform:uppercase; letter-spacing:-.01em; line-height:1.05; margin-bottom:20px; }
+.contact-info h2 em { font-style:normal; color:var(--neon); text-shadow:0 0 32px var(--neon-glow); }
+.contact-info > p { color:var(--muted); font-size:13px; line-height:1.85; margin-bottom:36px; }
+.cdet { display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--border); }
+.cdet:last-of-type { border-bottom:1px solid var(--border); }
+.cdet-label { font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); min-width:64px; }
+.cdet-val { font-size:12.5px; }
+.cdet-val a { color:var(--white); text-decoration:none; transition:color .2s; }
+.cdet-val a:hover { color:var(--neon); }
+.available { color:var(--neon); font-size:11px; display:flex; align-items:center; gap:6px; }
+.available::before { content:'◉'; animation:pulse 2s infinite; }
+
+.contact-form-wrap { padding:80px 56px; }
+.cform { display:flex; flex-direction:column; gap:18px; }
+.fg { display:flex; flex-direction:column; gap:6px; }
+.fg label { font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); }
+.fg input,.fg textarea,.fg select {
+  background:var(--bg); border:1px solid var(--border);
+  color:var(--white); font-family:'DM Mono',monospace; font-size:12.5px;
+  padding:12px 16px; outline:none; transition:border-color .2s;
+  resize:none; -webkit-appearance:none;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus { border-color:var(--neon); }
+.fg textarea { height:120px; }
+.fg select option { background:var(--surface); }
+.form-submit {
+  background:var(--neon); color:var(--bg);
+  font-family:'DM Mono',monospace; font-size:11px;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:15px 32px; border:none; cursor:none;
+  transition:all .2s; align-self:flex-start; margin-top:4px;
+}
+.form-submit:hover { box-shadow:0 0 28px var(--neon-glow); }
+
+/* ── FOOTER ──────────────────────── */
+footer {
+  background:var(--bg); border-top:1px solid var(--border);
+  padding:28px 48px; display:flex; justify-content:space-between;
+  align-items:center; position:relative; z-index:2;
+}
+.footer-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:15px; text-transform:uppercase; letter-spacing:.08em; }
+.footer-logo span { color:var(--neon); }
+.footer-copy { font-size:10px; letter-spacing:.06em; color:var(--muted); }
+.footer-links { display:flex; gap:28px; list-style:none; }
+.footer-links a { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s; }
+.footer-links a:hover { color:var(--neon); }
+
+/* ── REVEAL ──────────────────────── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease,transform .65s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── KEYFRAMES ───────────────────── */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+@keyframes fadeIn { from{opacity:0} to{opacity:.07} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── MOBILE ──────────────────────── */
+@media(max-width:900px){
+  .nav-utility { padding:0 20px; }
+  nav { padding:0 20px; }
+  .nav-links { display:none; }
+  .hero { flex-direction:column; height:auto; margin-top:96px; padding-bottom:60px; }
+  .hero-img-zone { position:relative; width:100%; height:280px; }
+  .hero-content { width:100%; padding:40px 24px 0; }
+  .hero-bg-word { font-size:120px; right:-10px; }
+  .services,.work { padding:72px 20px; }
+  .services-grid { grid-template-columns:1fr; }
+  .about { padding:72px 20px; grid-template-columns:1fr; gap:48px; }
+  .work-grid { grid-template-columns:1fr; }
+  .contact { grid-template-columns:1fr; }
+  .contact-info { border-right:none; border-bottom:1px solid var(--border); padding:56px 24px; }
+  .contact-form-wrap { padding:56px 24px; }
+  footer { flex-direction:column; gap:14px; padding:24px 20px; }
+  .footer-links { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- UTILITY BAR -->
+<div class="nav-utility">
+  <div class="nav-utility-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <span>Asia — Remote Worldwide</span>
+</div>
+
+<!-- MAIN NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-dot"></div>
+    <span>ARTIFACT
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Specialisms</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-word">NEON</div>
+  <div class="hero-accent"></div>
+
+  <div class="hero-img-zone">
+    <div class="hero-img-inner">
+      <!-- Replace this div with a real product image when ready -->
+      <div class="placeholder-art">
+        <div class="pa-ring pa-r1"></div>
+        <div class="pa-ring pa-r2"></div>
+        <div class="pa-ring pa-r3"></div>
+        <div class="pa-cross"><div class="pa-dot"></div></div>
+        <div class="pa-label">[ Product Image ]</div>
+      </div>
+    </div>
+    <div class="hero-img-fade"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Western Design. Industry Depth.</div>
+    <h1 class="hero-headline">
+      Designed by<br>
+      someone who<br>
+      <em>actually tattoos.</em>
+    </h1>
+    <p class="hero-sub">
+      Creative direction, product design, and brand identity for the tattoo industry — built on 20+ years working with the world's leading brands. A UK designer in Bangkok. The bridge between Asian manufacturing and Western markets.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a Project</a>
+      <a href="#services" class="btn-ghost">Our Services</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll down
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Creative Direction</div>
+    <div class="marquee-item">Product Design</div>
+    <div class="marquee-item">Western Market Positioning</div>
+    <div class="marquee-item">Brand Identity</div>
+    <div class="marquee-item">Industrial Design</div>
+    <div class="marquee-item">Packaging & Print</div>
+    <div class="marquee-item">Tattoo Industry</div>
+    <div class="marquee-item">Creative Direction</div>
+    <div class="marquee-item">Product Design</div>
+    <div class="marquee-item">Western Market Positioning</div>
+    <div class="marquee-item">Brand Identity</div>
+    <div class="marquee-item">Industrial Design</div>
+    <div class="marquee-item">Packaging & Print</div>
+    <div class="marquee-item">Tattoo Industry</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="s-tag reveal">What We Do</div>
+  <h2 class="s-title reveal">Services</h2>
+  <div class="services-grid">
+    <div class="svc reveal">
+      <div class="svc-num">01 //</div>
+      <div class="svc-title">Creative Direction</div>
+      <p class="svc-desc">Strategic creative leadership across brand, campaign, and product. From concept to execution — with the cultural fluency to position Asian brands convincingly in Western markets.</p>
+      <div class="svc-tags"><span class="tag">Brand Strategy</span><span class="tag">Art Direction</span><span class="tag">Campaign</span></div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">02 //</div>
+      <div class="svc-title">Product Design & Development</div>
+      <p class="svc-desc">20+ years designing for the industry's leading brands — machines, power supplies, grips, cartridges, and accessories. One of the very few designers in this space who is also a working tattooist. Every product evaluated against real studio use, not just aesthetics.</p>
+      <div class="svc-tags"><span class="tag">Industrial Design</span><span class="tag">CAD</span><span class="tag">3D</span><span class="tag">Production</span></div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">03 //</div>
+      <div class="svc-title">Consultancy</div>
+      <p class="svc-desc">Fractional creative direction and industry consultancy. Senior-level thinking without the full-time overhead — particularly valuable for Asian brands navigating Western market entry.</p>
+      <div class="svc-tags"><span class="tag">Advisory</span><span class="tag">Market Entry</span><span class="tag">Fractional CD</span></div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">04 //</div>
+      <div class="svc-title">Brand Identity</div>
+      <p class="svc-desc">Visual identities that land with Western audiences — naming, mark-making, and complete design systems. Built with an instinctive understanding of what Western consumers respond to.</p>
+      <div class="svc-tags"><span class="tag">Identity</span><span class="tag">Design Systems</span><span class="tag">Packaging</span></div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">05 //</div>
+      <div class="svc-title">Western Market Positioning</div>
+      <p class="svc-desc">Specialist expertise helping Asian manufacturers build genuine credibility in UK, US, and European markets. Western eyes. Western instincts. Real industry relationships.</p>
+      <div class="svc-tags"><span class="tag">Market Strategy</span><span class="tag">Brand Awareness</span><span class="tag">UK / US / EU</span></div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">06 //</div>
+      <div class="svc-title">Packaging & Print</div>
+      <p class="svc-desc">Packaging that competes at the highest level. Tattoo equipment, consumables, accessories — designed with the finish and feel that premium Western retail demands.</p>
+      <div class="svc-tags"><span class="tag">Packaging</span><span class="tag">Print</span><span class="tag">Retail-ready</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left">
+    <div class="s-tag reveal">About</div>
+    <h2 class="s-title reveal" style="margin-bottom:32px">Three Decades.<br>One Industry.</h2>
+    <div class="about-text reveal">
+      <p>ARTIFACT is the creative vehicle of <strong>Bez</strong> — a UK creative director and product designer based in Bangkok, with over 30 years spanning illustration, CAD engineering, industrial design, 3D art, and brand identity.</p>
+      <p>A working tattooist for over two decades — one of the very few product designers in this space who actually comes from the industry. Every brief gets filtered through real studio experience, not guesswork.</p>
+      <p>For the last <strong>20+ years</strong>, designing products and brands for some of the tattoo industry's most recognised companies — with a specialism helping <strong>Asian manufacturers</strong> build the credibility and visual identity that Western markets respond to.</p>
+      <div class="about-pull">
+        <p>"Designed by someone who has actually used this stuff. That's rarer than it should be."</p>
+      </div>
+    </div>
+  </div>
+  <div class="about-stats reveal">
+    <div class="astat">
+      <div class="astat-num">35<span>+</span></div>
+      <div class="astat-label">Years in Design</div>
+    </div>
+    <div class="astat">
+      <div class="astat-num">20<span>+</span></div>
+      <div class="astat-label">Years in the Tattoo Industry</div>
+    </div>
+
+    <div class="astat">
+      <div class="astat-num">ASIA</div>
+      <div class="astat-label">Asia Based — Remote Worldwide</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="s-tag reveal">Tattoo Industry</div>
+  <h2 class="s-title reveal">Product Design &<br>Development</h2>
+  <div class="work-grid">
+    <div class="wcard reveal">
+      <div class="wcard-label">◆ Product Design & Development</div>
+      <div class="wcard-title">Equipment & Hardware</div>
+      <p class="wcard-desc">Machines, power supplies, and studio hardware designed by someone who has actually used them professionally. 20+ years working with the industry's leading brands — with the hands-on knowledge to know what works in a real studio, not just what looks good in a render.</p>
+      <a href="#contact" class="wcard-link">Start a project</a>
+    </div>
+    <div class="wcard reveal">
+      <div class="wcard-label">◆ Product Design & Development</div>
+      <div class="wcard-title">Accessories & Consumables</div>
+      <p class="wcard-desc">Grips, cartridge systems, packaging, and studio accessories — designed from the perspective of someone who tattoos professionally. The difference between a product that feels right in the hand and one designed by someone who's never held a machine.</p>
+      <a href="#contact" class="wcard-link">Start a project</a>
+    </div>
+    <div class="wcard reveal">
+      <div class="wcard-label">◆ Brand Identity</div>
+      <div class="wcard-title">Industry Branding</div>
+      <p class="wcard-desc">Brand identity for studios, equipment brands, conventions, and artist collectives — built with real cultural credibility. Not a generic agency interpreting the industry from the outside, but a designer who has been part of it for over two decades.</p>
+      <a href="#contact" class="wcard-link">Start a project</a>
+    </div>
+    <div class="wcard reveal">
+      <div class="wcard-label">◆ Western Market Positioning</div>
+      <div class="wcard-title">Asian Brands. Western Markets.</div>
+      <p class="wcard-desc">Specialist consultancy for Asian manufacturers wanting genuine traction in UK, US, and European markets. Western creative instincts, Asian market proximity — and 20+ years of relationships with the brands that matter in this industry.</p>
+      <a href="#contact" class="wcard-link">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-info">
+    <div class="s-tag reveal">Contact</div>
+    <h2 class="reveal">Let's Build<br>Something <em>Sharp.</em></h2>
+    <p class="reveal">Got a product brief, a brand to build, or a market to crack? We work with a select number of clients — so every project gets the attention it deserves.</p>
+    <div class="cdet reveal"><span class="cdet-label">Email</span><span class="cdet-val"><a href="mailto:richbeston666@gmail.com">richbeston666@gmail.com</a></span></div>
+    <div class="cdet reveal"><span class="cdet-label">Base</span><span class="cdet-val">Asia — Remote Worldwide</span></div>
+    <div class="cdet reveal"><span class="cdet-label">Status</span><span class="cdet-val"><span class="available">Available for select projects</span></span></div>
+  </div>
+  <div class="contact-form-wrap">
+    <form class="cform reveal" onsubmit="handleSubmit(event)">
+      <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name" required></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
+      <div class="fg">
+        <label>Project Type</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Creative Direction</option>
+          <option>Product Design & Development</option>
+          <option>Brand Identity</option>
+          <option>Western Market Positioning</option>
+          <option>Packaging & Print</option>
+          <option>Consultancy</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Tell Us About Your Project</label><textarea placeholder="Brief overview, timeline, budget range..."></textarea></div>
+      <button type="submit" class="form-submit">Send Message →</button>
+      <div id="form-success" style="display:none;color:var(--neon);font-size:11px;letter-spacing:.1em;margin-top:8px;">◉ Message sent. We'll be in touch shortly.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ARTIFACT</div>
+  <div class="footer-copy">© 2026 ARTIFACT. All rights reserved.</div>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  (function anim(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*60); obs.unobserve(e.target); } });
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+  function handleSubmit(e){
+    e.preventDefault();
+    document.getElementById('form-success').style.display='block';
+    e.target.querySelector('.form-submit').textContent='Sent ✓';
+  }
+</script>
+</body>
+</html>
